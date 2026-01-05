@@ -158,6 +158,17 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
+/* Basic styling for validation feedback */
+input:invalid { 
+    border-color: #ffcccc; 
+}
+.error-msg { 
+    color: red; 
+    font-size: 0.8em; 
+    display: none; 
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
