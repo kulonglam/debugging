@@ -1,137 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Karibu Groceries - Procurement Entry Form</title>
     <link rel="stylesheet" href="css/procurement.css" />
-    
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        
-        <h1>Procurement Entry Form</h1>
-        <form action="/submit" method="POST" enctype="multipart/form-data" class="form-container" id="procurementForm">
-            <div id="success-message" style="display: none; text-align: center; padding: 40px;">
-                <div style="font-size: 50px; color: #28a745;">✔</div>
-                <h2 style="color: #28a745;">Submission Successful!</h2>
-                <p>The procurement entry for <span id="display-product"></span> has been recorded.</p>
-                <button onclick="location.reload()" class="submit-btn" style="background-color: #007bff;">Add Another Entry</button>
+      <h1>Procurement Entry Form</h1>
+      <form
+        action="/submit"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-container"
+        id="procurementForm"
+      >
+        <div
+          id="success-message"
+          style="display: none; text-align: center; padding: 40px"
+        >
+          <div style="font-size: 50px; color: #28a745">✔</div>
+          <h2 style="color: #28a745">Submission Successful!</h2>
+          <p>
+            The procurement entry for <span id="display-product"></span> has
+            been recorded.
+          </p>
+          <button
+            onclick="location.reload()"
+            class="submit-btn"
+            style="background-color: #007bff"
+          >
+            Add Another Entry
+          </button>
+        </div>
+        <p>Fill the details below to record a new entry</p>
+
+        <fieldset class="field-group">
+          <legend>Supplier & Purchase Details</legend>
+
+          <div class="field-item">
+            <label for="supplier-name">Supplier Name</label>
+            <input
+              type="text"
+              id="supplier-name"
+              name="supplier_name"
+              placeholder="e.g., Tech Imports Ltd"
+              required
+            />
+          </div>
+
+          <div class="field-item">
+            <label for="supplier_contact">Supplier Contact</label>
+            <input
+              type="tel"
+              id="supplier_contact"
+              name="supplier_phone"
+              placeholder="e.g., 0712345678"
+              pattern="[0][0-9]{9}"
+              title="Please enter a valid 10-digit phone number starting with 0"
+              required
+            />
+            <span id="phone-error" class="error-msg"
+              >Invalid phone format (10 digits required).</span
+            >
+          </div>
+
+          <div class="field-item">
+            <label for="purchase_date">Purchase Date</label>
+            <input
+              type="date"
+              id="purchase_date"
+              name="purchase_date"
+              required
+            />
+          </div>
+
+          <div class="field-item">
+            <label for="invoice_number">Invoice Number</label>
+            <input
+              type="text"
+              id="invoice_number"
+              name="invoice_number"
+              placeholder="enter invoice number"
+              required
+            />
+          </div>
+
+          <div class="field-item full-row">
+            <label for="product_name">Product Name</label>
+            <input
+              type="text"
+              id="product_name"
+              name="product_name"
+              placeholder="enter product name"
+              required
+            />
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>Product Details</legend>
+
+          <div class="field-item">
+            <label for="productCategory">Product Category</label>
+            <select id="productCategory" name="productCategory" required>
+              <option value="">-- Select Category --</option>
+              <option value="electronics">Electronics</option>
+              <option value="furniture">Furniture</option>
+              <option value="stationery">Stationery</option>
+              <option value="groceries">Groceries</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="field-item">
+            <label for="quantity">Quantity</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="field-item">
+            <label for="unitPrice">Unit Price</label>
+            <input
+              type="number"
+              id="unitPrice"
+              name="unitPrice"
+              step="0.01"
+              min="0.01"
+              required
+            />
+          </div>
+
+          <div class="field-item">
+            <label for="totalAmount">Total Amount</label>
+            <input
+              type="number"
+              id="totalAmount"
+              name="total_amount"
+              value="0.00"
+              step="0.01"
+              readonly
+            />
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>Payment & Delivery</legend>
+
+          <div class="radio-group full-row">
+            <label>Payment Method</label>
+            <div class="radio-options">
+              <input
+                type="radio"
+                id="cash"
+                name="paymentMethod"
+                value="Cash"
+                required
+              />
+              <label for="cash">Cash</label>
+              <input
+                type="radio"
+                id="mobile-money"
+                name="paymentMethod"
+                value="Mobile Money"
+              />
+              <label for="mobile-money">Mobile Money</label>
+              <input
+                type="radio"
+                id="bank-transfer"
+                name="paymentMethod"
+                value="Bank Transfer"
+              />
+              <label for="bank-transfer">Bank Transfer</label>
+              <input
+                type="radio"
+                id="credit"
+                name="paymentMethod"
+                value="Credit"
+              />
+              <label for="credit">Credit</label>
             </div>
-            <p>Fill the details below to record a new entry</p>
-            
-            <fieldset class="field-group">
-                <legend>Supplier & Purchase Details</legend>
-                
-                <div class="field-item">
-                    <label for="supplier-name">Supplier Name</label>
-                    <input type="text" id="supplier-name" name="supplier_name" placeholder="e.g., Tech Imports Ltd" required/>
-                </div>
-                
-                <div class="field-item">
-                    <label for="supplier_contact">Supplier Contact</label>
-                    <input type="tel" id="supplier_contact" name="supplier_phone"  placeholder="e.g., 0712345678" pattern="[0][0-9]{9}" title="Please enter a valid 10-digit phone number starting with 0" required/>
-                    <span id="phone-error" class="error-msg">Invalid phone format (10 digits required).</span>
-                </div>
-
-                <div class="field-item">
-                    <label for="purchase_date">Purchase Date</label>
-                    <input type="date" id="purchase_date" name="purchase_date" required/>
-                </div>
-                
-                <div class="field-item">
-                    <label for="invoice_number">Invoice Number</label>
-                    <input type="text" id="invoice_number" name="invoice_number" placeholder="enter invoice number" required/>
-                </div>
-                
-                <div class="field-item full-row"> 
-                    <label for="product_name">Product Name</label>
-                    <input type="text" id="product_name" name="product_name" placeholder="enter product name" required/>
-                </div>
-            </fieldset>
-
-            <fieldset class="field-group">
-                <legend>Product Details</legend>
-                
-                <div class="field-item">
-                    <label for="productCategory">Product Category</label>
-                    <select id="productCategory" name="productCategory" required>
-                        <option value="">-- Select Category --</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="furniture">Furniture</option>
-                        <option value="stationery">Stationery</option>
-                        <option value="groceries">Groceries</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="field-item">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" name="quantity" min="1" required />
-                </div>
-                
-                <div class="field-item">
-                    <label for="unitPrice">Unit Price</label>
-                    <input type="number" id="unitPrice" name="unitPrice" step="0.01" min="0.01" required/>
-                </div>
-                
-                <div class="field-item">
-                    <label for="totalAmount">Total Amount</label>
-                    <input type="number" id="totalAmount" name="total_amount" value="0.00" step="0.01" readonly/>
-                </div>
-            </fieldset>
-
-            <fieldset class="field-group">
-                <legend>Payment & Delivery</legend>
-                
-                <div class="radio-group full-row">
-                    <label>Payment Method</label>
-                    <div class="radio-options">
-                        <input type="radio" id="cash" name="paymentMethod" value="Cash" required/>
-                        <label for="cash">Cash</label>
-                        <input type="radio" id="mobile-money" name="paymentMethod" value="Mobile Money"/>
-                        <label for="mobile-money">Mobile Money</label>
-                        <input type="radio" id="bank-transfer" name="paymentMethod" value="Bank Transfer"/>
-                        <label for="bank-transfer">Bank Transfer</label>
-                        <input type="radio" id="credit" name="paymentMethod" value="Credit"/>
-                        <label for="credit">Credit</label>
-                    </div>
-                </div>
-                <div class="radio-group full-row">
+          </div>
+          <div class="radio-group full-row">
             <label>Payment Status</label>
             <div class="radio-options">
-              <input type="radio" id="paid" name="payment_status" value="paid" required/>
+              <input
+                type="radio"
+                id="paid"
+                name="payment_status"
+                value="paid"
+                required
+              />
               <label for="paid">Paid</label>
-              <input type="radio" id="pending" name="payment_status" value="pending" required/>
+              <input
+                type="radio"
+                id="pending"
+                name="payment_status"
+                value="pending"
+                required
+              />
               <label for="pending">Pending</label>
-              <input type="radio" id="partial" name="payment_status" value="partial" required/>
+              <input
+                type="radio"
+                id="partial"
+                name="payment_status"
+                value="partial"
+                required
+              />
               <label for="partial">Partial</label>
             </div>
           </div>
-                <div class="field-item">
-                    <label for="delivery_date">Delivery Date</label>
-                    <input type="date" id="delivery_date" name="delivery_date" required/>
-                    <span id="date-error" class="error-msg">Delivery cannot be before purchase!</span>
-                </div>
-
-                <div class="field-item">
-                    <label for="file">Upload Invoice/Receipt</label>
-                    <input type="file" name="file" id="file" accept="image/*, .pdf">
-                </div>
-                <div class="field-item full-row">
-            <label for="notes">Notes/Description</label>
-            <textarea name="notes" id="notes" placeholder="Enter any specific delivery instructions or notes..."></textarea>
+          <div class="field-item">
+            <label for="delivery_date">Delivery Date</label>
+            <input
+              type="date"
+              id="delivery_date"
+              name="delivery_date"
+              required
+            />
+            <span id="date-error" class="error-msg"
+              >Delivery cannot be before purchase!</span
+            >
           </div>
-            </fieldset>
-            
-            <div class="button-group">
-                <button type="submit" class="submit-btn">Submit Procurement</button>
-                <button type="reset" class="reset-btn">Reset Form</button>
-            </div>
-        </form>
+
+          <div class="field-item">
+            <label for="file">Upload Invoice/Receipt</label>
+            <input type="file" name="file" id="file" accept="image/*, .pdf" />
+          </div>
+          <div class="field-item full-row">
+            <label for="notes">Notes/Description</label>
+            <textarea
+              name="notes"
+              id="notes"
+              placeholder="Enter any specific delivery instructions or notes..."
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <div class="button-group">
+          <button type="submit" class="submit-btn">Submit Procurement</button>
+          <button type="reset" class="reset-btn">Reset Form</button>
+        </div>
+      </form>
     </div>
 
     <script src="debugging.js"></script>
-    
-</body>
+  </body>
 </html>

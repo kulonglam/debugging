@@ -1,94 +1,93 @@
 // Defining the variables
-const qtyInput = document.getElementById('quantity');
-const priceInput = document.getElementById('unitPrice');
-const totalInput = document.getElementById('totalAmount');
-const purchaseDate = document.getElementById('purchase_date');
-const deliveryDate = document.getElementById('delivery_date');
-const phoneInput = document.getElementById('supplier_contact');
-const phoneError = document.getElementById('phone-error');
-const dateError = document.getElementById('date-error');
-const procurementForm = document.getElementById('procurementForm');
+const qtyInput = document.getElementById("quantity");
+const priceInput = document.getElementById("unitPrice");
+const totalInput = document.getElementById("totalAmount");
+const purchaseDate = document.getElementById("purchase_date");
+const deliveryDate = document.getElementById("delivery_date");
+const phoneInput = document.getElementById("supplier_contact");
+const phoneError = document.getElementById("phone-error");
+const dateError = document.getElementById("date-error");
+const procurementForm = document.getElementById("procurementForm");
 
 // Logical: Real-time total calculation logic
 // Ensures the Total Amount is always correct (Quantity * Unit Price)
 function calculateTotal() {
-    try {
-        const qty = parseFloat(qtyInput.value) || 0;
-        const price = parseFloat(priceInput.value) || 0;
-        // FIX (Error Handling): Using toFixed(2) to handle currency decimals safely
-        totalInput.value = (qty * price).toFixed(2);
-    } catch (error) {
-        // FIX (Error Handling): Runtime catch to prevent script crashes
-        console.error("Calculation Error:", error);
-        totalInput.value = "0.00";
-    }
+  try {
+    const qty = parseFloat(qtyInput.value) || 0;
+    const price = parseFloat(priceInput.value) || 0;
+    totalInput.value = (qty * price).toFixed(2);
+  } catch (error) {
+    // FIX (Error Handling): Runtime catch to prevent script crashes
+    console.error("Calculation Error:", error);
+    totalInput.value = "0.00";
+  }
 }
 
-qtyInput.addEventListener('input', calculateTotal);
-priceInput.addEventListener('input', calculateTotal);
+qtyInput.addEventListener("input", calculateTotal);
+priceInput.addEventListener("input", calculateTotal);
 
 // FIX (Logical): Sanitizing phone input in real-time
-phoneInput.addEventListener('input', function() {
-    this.value = this.value.replace(/\D/g, ''); 
+phoneInput.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "");
 
-    if (this.value.length > 0 && !this.value.startsWith('0')) {
-        phoneError.textContent = "Number must start with 0";
-        phoneError.style.display = 'block';
-    } else if (this.value.length > 0 && this.value.length !== 10) {
-        phoneError.textContent = "Must be exactly 10 digits";
-        phoneError.style.display = 'block';
-    } else {
-        phoneError.style.display = 'none';
-    }
+  if (this.value.length > 0 && !this.value.startsWith("0")) {
+    phoneError.textContent = "Number must start with 0";
+    phoneError.style.display = "block";
+  } else if (this.value.length > 0 && this.value.length !== 10) {
+    phoneError.textContent = "Must be exactly 10 digits";
+    phoneError.style.display = "block";
+  } else {
+    phoneError.style.display = "none";
+  }
 });
 
 // --- Master Form Submission Logic ---
-procurementForm.addEventListener('submit', function(e) {
-    // 1. Reset Validation state
-    let isValid = true;
-    const pDate = new Date(purchaseDate.value);
-    const dDate = new Date(deliveryDate.value);
+procurementForm.addEventListener("submit", function (e) {
+  // 1. Reset Validation state
+  let isValid = true;
+  const pDate = new Date(purchaseDate.value);
+  const dDate = new Date(deliveryDate.value);
 
-    // FIX (Error Handling/Logical): Prevent Delivery before Purchase
-    if (dDate < pDate) {
-        dateError.style.display = 'block';
-        deliveryDate.focus();
-        isValid = false;
-    } else {
-        dateError.style.display = 'none';
-    }
+  // FIX (Error Handling/Logical): Prevent Delivery before Purchase
+  if (dDate < pDate) {
+    dateError.style.display = "block";
+    deliveryDate.focus();
+    isValid = false;
+  } else {
+    dateError.style.display = "none";
+  }
 
-    // FIX (Logical): Final check for valid phone length
-    if (phoneInput.value.length !== 10) {
-        phoneError.style.display = 'block';
-        if (isValid) phoneInput.focus();
-        isValid = false;
-    }
+  // FIX (Logical): Final check for valid phone length
+  if (phoneInput.value.length !== 10) {
+    phoneError.style.display = "block";
+    if (isValid) phoneInput.focus();
+    isValid = false;
+  }
 
-    // 2. Prevent default submission if errors exist
-    if (!isValid) {
-        e.preventDefault();
-        return; // Stop the function here
-    }
+  // 2. Prevent default submission if errors exist
+  if (!isValid) {
+    e.preventDefault();
+    return;
+  }
 
-    // 3. SUCCESS Logic (Only runs if isValid is true)
-    e.preventDefault(); // Stop page reload for simulation
-    
-    const submitBtn = document.querySelector('.submit-btn');
-    const productName = document.getElementById('product_name').value;
-    
-    // UI Feedback: Change button state
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Processing...";
-    submitBtn.style.opacity = "0.7";
+  // SUCCESS Logic (Only runs if isValid is true)
+  e.preventDefault();
 
-    // Simulate Server Submission delay (2 seconds)
-    setTimeout(() => {
-        // Hide form and show success block
-        procurementForm.style.display = 'none';
-        
-        const successDiv = document.getElementById('success-message');
-        document.getElementById('display-product').textContent = productName;
-        successDiv.style.display = 'block';
-    }, 2000);
+  const submitBtn = document.querySelector(".submit-btn");
+  const productName = document.getElementById("product_name").value;
+
+  // UI Feedback: Change button state
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Processing...";
+  submitBtn.style.opacity = "0.7";
+
+  // Simulate Server Submission delay for 2 seconds
+  setTimeout(() => {
+    // Hide form and show success block
+    procurementForm.style.display = "none";
+
+    const successDiv = document.getElementById("success-message");
+    document.getElementById("display-product").textContent = productName;
+    successDiv.style.display = "block";
+  }, 2000);
 });
