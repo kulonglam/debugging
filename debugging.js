@@ -9,7 +9,7 @@ const phoneError = document.getElementById("phone-error");
 const dateError = document.getElementById("date-error");
 const procurementForm = document.getElementById("procurementForm");
 
-// Logical: Real-time total calculation logic
+//  Real-time total calculation logic
 // Ensures the Total Amount is always correct (Quantity * Unit Price)
 function calculateTotal() {
   try {
@@ -17,7 +17,7 @@ function calculateTotal() {
     const price = parseFloat(priceInput.value) || 0;
     totalInput.value = (qty * price).toFixed(2);
   } catch (error) {
-    // FIX (Error Handling): Runtime catch to prevent script crashes
+    // Runtime catch to prevent script crashes
     console.error("Calculation Error:", error);
     totalInput.value = "0.00";
   }
@@ -26,7 +26,7 @@ function calculateTotal() {
 qtyInput.addEventListener("input", calculateTotal);
 priceInput.addEventListener("input", calculateTotal);
 
-// FIX (Logical): Sanitizing phone input in real-time
+// Sanitizing phone input in real-time
 phoneInput.addEventListener("input", function () {
   this.value = this.value.replace(/\D/g, "");
 
@@ -41,14 +41,13 @@ phoneInput.addEventListener("input", function () {
   }
 });
 
-// --- Master Form Submission Logic ---
 procurementForm.addEventListener("submit", function (e) {
-  // 1. Reset Validation state
+  // Reset Validation state
   let isValid = true;
   const pDate = new Date(purchaseDate.value);
   const dDate = new Date(deliveryDate.value);
 
-  // FIX (Error Handling/Logical): Prevent Delivery before Purchase
+  // Error handling/logical: Prevent delivery before purchase
   if (dDate < pDate) {
     dateError.style.display = "block";
     deliveryDate.focus();
@@ -57,20 +56,20 @@ procurementForm.addEventListener("submit", function (e) {
     dateError.style.display = "none";
   }
 
-  // FIX (Logical): Final check for valid phone length
+  //  Final check for valid phone length
   if (phoneInput.value.length !== 10) {
     phoneError.style.display = "block";
     if (isValid) phoneInput.focus();
     isValid = false;
   }
 
-  // 2. Prevent default submission if errors exist
+  // Prevent default submission if errors exist
   if (!isValid) {
     e.preventDefault();
     return;
   }
 
-  // SUCCESS Logic (Only runs if isValid is true)
+  // Only runs if isValid is true
   e.preventDefault();
 
   const submitBtn = document.querySelector(".submit-btn");
